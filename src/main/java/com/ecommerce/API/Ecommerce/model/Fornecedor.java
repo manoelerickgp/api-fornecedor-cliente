@@ -22,7 +22,7 @@ public class Fornecedor implements Serializable {
 	private Long id;
 
 	@Column(length = 50, nullable = false)
-	private String nome;
+	private String nome;	
 
 	@Column(length = 14, nullable = false)
 	private String cnpj;

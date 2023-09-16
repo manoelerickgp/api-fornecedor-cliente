@@ -19,7 +19,7 @@ public class Contato implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;	
 
 	@Column(length = 15, nullable = false)
 	private Long telefone;

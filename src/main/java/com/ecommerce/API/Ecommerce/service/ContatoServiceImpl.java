@@ -15,27 +15,21 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	public Contato buscar(Long id) {
 
-		if (id != null) {
+		return contatoRepository.findById(id).map(c -> {
+			c.getId();
+			return c;
+		}).orElse(null);
 
-			try {
-
-				return contatoRepository.findById(id).map(c -> {
-					c.getId();
-					return c;
-				}).orElse(null);
-
-			} catch (Exception e) {
-				throw e;
-			}
-		}
-
-		return null;
 	}
 
 	@Override
 	public void salvar(Contato contato) {
 
 		if (contato != null) {
+
+			if (contato.getEmail() == null || contato.getEmail().isEmpty()) {
+				throw new IllegalArgumentException("O campo 'email' não pode ser nulo");
+			}
 
 			try {
 
@@ -52,13 +46,8 @@ public class ContatoServiceImpl implements ContatoService {
 
 		if (contato != null) {
 
-			try {
+			contatoRepository.delete(contato);
 
-				contatoRepository.delete(contato);
-
-			} catch (Exception e) {
-				throw e;
-			}
 		}
 	}
 
