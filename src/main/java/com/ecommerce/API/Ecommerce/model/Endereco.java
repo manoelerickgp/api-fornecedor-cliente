@@ -28,7 +28,7 @@ public class Endereco implements Serializable {
 	@Column(length = 50, nullable = false)
 	private String rua;
 
-	@Column(length = 50, nullable = false)
+	@Column(nullable = false)
 	private Long numero;
 
 	@Column(length = 50, nullable = false)

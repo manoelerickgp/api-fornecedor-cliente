@@ -11,15 +11,13 @@ public class EnderecoServiceImpl implements EnderecoService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	@Override
 	public Endereco buscar(Long id) {
-		return enderecoRepository.findById(id).map(e -> {
-			e.getId();
-			return e;
-		}).orElse(null);
+		
+		return enderecoRepository.findById(id).orElse(null);
 	}
-	
+
 	@Override
 	public void salvar(Endereco endereco) {
 
@@ -37,18 +35,34 @@ public class EnderecoServiceImpl implements EnderecoService {
 
 	@Override
 	public void excluir(Endereco endereco) {
+
+		if (endereco != null)
+			enderecoRepository.delete(endereco);
+
+	}
+
+	@Override
+	public void atualizar(Long id, Endereco novoEndereco) {
+		
+		Endereco endereco = this.buscar(id);
 		
 		if (endereco != null) {
-
+			
 			try {
-
-				enderecoRepository.delete(endereco);
-
+				
+				endereco.setRua(novoEndereco.getRua());
+				endereco.setNumero(novoEndereco.getNumero());
+				endereco.setCidade(novoEndereco.getCidade());
+				endereco.setEstado(novoEndereco.getEstado());
+				endereco.setPais(novoEndereco.getPais());
+				
+				enderecoRepository.save(endereco);
+				
 			} catch (Exception e) {
 				throw e;
 			}
+			
 		}
 	}
 
-	
 }

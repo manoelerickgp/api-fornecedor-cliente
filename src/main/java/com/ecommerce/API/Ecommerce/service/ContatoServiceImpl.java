@@ -15,11 +15,7 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	public Contato buscar(Long id) {
 
-		return contatoRepository.findById(id).map(c -> {
-			c.getId();
-			return c;
-		}).orElse(null);
-
+		return contatoRepository.findById(id).orElse(null);
 	}
 
 	@Override
@@ -49,6 +45,27 @@ public class ContatoServiceImpl implements ContatoService {
 			contatoRepository.delete(contato);
 
 		}
+	}
+
+	@Override
+	public void atualizar(Long id, Contato novoContato) {
+
+		Contato contato = this.buscar(id);
+
+		if (contato != null) {
+
+			try {
+
+				contato.setTelefone(novoContato.getTelefone());
+				contato.setEmail(novoContato.getEmail());
+
+				contatoRepository.save(contato);
+
+			} catch (Exception e) {
+				throw new IllegalArgumentException("ID não encontrado na base de dados.");
+			}
+		}
+
 	}
 
 }

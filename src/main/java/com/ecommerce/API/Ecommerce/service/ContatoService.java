@@ -10,4 +10,6 @@ public interface ContatoService {
 
 	public void excluir(Contato contato);
 
+	public void atualizar(Long id, Contato novoContato);
+
 }
