@@ -2,11 +2,13 @@ package com.ecommerce.API.Ecommerce.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,13 +24,15 @@ public class Fornecedor implements Serializable {
 	private Long id;
 
 	@Column(length = 50, nullable = false)
-	private String nome;	
+	private String nome;
 
 	@Column(length = 14, nullable = false)
 	private String cnpj;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	private Contato contato;
 
 	public Long getId() {
