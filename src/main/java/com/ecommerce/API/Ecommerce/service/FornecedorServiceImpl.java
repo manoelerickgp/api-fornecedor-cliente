@@ -95,14 +95,6 @@ public class FornecedorServiceImpl implements FornecedorService {
 				throw new RuntimeException("Fornecedor não foi encontrado no sistema.", e);
 			}
 
-			/*
-			 * Remove o contato e endereco do Fornecedor antes de removê-lo.
-			 * 
-			 * Tratando manualmente para evitar conflitos.
-			 */
-			fornecedor.setContato(null);
-			fornecedor.setEndereco(null);
-
 			this.fornecedorRepository.delete(fornecedor);
 		}
 	}
