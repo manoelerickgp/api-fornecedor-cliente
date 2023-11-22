@@ -8,4 +8,6 @@ import com.ecommerce.API.Ecommerce.model.Fornecedor;
 @Repository
 public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
 
+	boolean existsByCnpj(String cnpj);
+
 }

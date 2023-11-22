@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.ecommerce.API.Ecommerce.model.Endereco;
 
 @Repository
-public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
+public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
 }

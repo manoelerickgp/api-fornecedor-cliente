@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,11 +30,19 @@ public class Fornecedor implements Serializable {
 	@Column(length = 14, nullable = false)
 	private String cnpj;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	private Endereco endereco;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	private Contato contato;
+
+	public Fornecedor() {
+
+	}
+
+	public Fornecedor(Class<Fornecedor> class1) {
+
+	}
 
 	public Long getId() {
 		return id;
