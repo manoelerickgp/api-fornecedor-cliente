@@ -1,68 +1,55 @@
 package com.ecommerce.API.Ecommerce.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.ecommerce.API.Ecommerce.dto.EnderecoDTO;
+import com.ecommerce.API.Ecommerce.exceptions.NotFoundException;
 import com.ecommerce.API.Ecommerce.model.Endereco;
 import com.ecommerce.API.Ecommerce.repository.EnderecoRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 @Service
 public class EnderecoServiceImpl implements EnderecoService {
 
-	@Autowired
-	private EnderecoRepository enderecoRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final ModelMapper mapper;
 
-	@Override
-	public Endereco buscar(Long id) {
-		
-		return enderecoRepository.findById(id).orElse(null);
-	}
+    public EnderecoServiceImpl(EnderecoRepository enderecoRepository, ModelMapper mapper) {
+        this.enderecoRepository = enderecoRepository;
+        this.mapper = mapper;
+    }
 
-	@Override
-	public void salvar(Endereco endereco) {
+    @Override
+    public EnderecoDTO buscar(Long id) {
+        var endereco = this.enderecoRepository
+                .findById(id).orElseThrow(() -> new NotFoundException("Id de Endereco Não foi encontrado"));
+        return mapper.map(endereco, EnderecoDTO.class);
+    }
 
-		if (endereco != null) {
+    @Override
+    public void salvar(EnderecoDTO enderecoDTO) {
+        var endereco = mapper.map(enderecoDTO, Endereco.class);
+        enderecoRepository.save(endereco);
+    }
 
-			try {
+    @Override
+    public void excluir(Long id) {
+        var endereco = mapper.map(buscar(id), Endereco.class);
+        enderecoRepository.delete(endereco);
+    }
 
-				enderecoRepository.save(endereco);
+    @Override
+    public void atualizar(Long id, EnderecoDTO novoEnderecoDTO) {
+        var enderecoSalvo = mapper.map(buscar(id), Endereco.class);
+        atualizarEndereco(enderecoSalvo, novoEnderecoDTO);
+        enderecoRepository.save(enderecoSalvo);
+    }
 
-			} catch (Exception e) {
-				throw e;
-			}
-		}
-	}
-
-	@Override
-	public void excluir(Endereco endereco) {
-
-		if (endereco != null)
-			enderecoRepository.delete(endereco);
-
-	}
-
-	@Override
-	public void atualizar(Long id, Endereco novoEndereco) {
-		
-		Endereco endereco = this.buscar(id);
-		
-		if (endereco != null) {
-			
-			try {
-				
-				endereco.setRua(novoEndereco.getRua());
-				endereco.setNumero(novoEndereco.getNumero());
-				endereco.setCidade(novoEndereco.getCidade());
-				endereco.setEstado(novoEndereco.getEstado());
-				endereco.setPais(novoEndereco.getPais());
-				
-				enderecoRepository.save(endereco);
-				
-			} catch (Exception e) {
-				throw e;
-			}
-			
-		}
-	}
+    private void atualizarEndereco(Endereco enderecoSalvo, EnderecoDTO novoEndereco) {
+        enderecoSalvo.setRua(novoEndereco.getRua());
+        enderecoSalvo.setNumero(novoEndereco.getNumero());
+        enderecoSalvo.setCidade(novoEndereco.getCidade());
+        enderecoSalvo.setEstado(novoEndereco.getEstado());
+        enderecoSalvo.setPais(novoEndereco.getPais());
+    }
 
 }

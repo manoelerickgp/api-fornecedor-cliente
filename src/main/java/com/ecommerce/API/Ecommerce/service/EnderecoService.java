@@ -1,14 +1,14 @@
 package com.ecommerce.API.Ecommerce.service;
 
-import com.ecommerce.API.Ecommerce.model.Endereco;
+import com.ecommerce.API.Ecommerce.dto.EnderecoDTO;
 
 public interface EnderecoService {
 
-	public Endereco buscar(Long id);
+    EnderecoDTO buscar(Long id);
 
-	public void salvar(Endereco endereco);
+    void salvar(EnderecoDTO enderecoDTO);
 
-	public void excluir(Endereco endereco);
+    void excluir(Long id);
 
-	public void atualizar(Long id, Endereco novoEndereco);
+    void atualizar(Long id, EnderecoDTO novoEnderecoDTO);
 }

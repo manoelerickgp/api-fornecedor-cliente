@@ -1,23 +1,16 @@
 package com.ecommerce.API.Ecommerce.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import com.ecommerce.API.Ecommerce.enums.Estado;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.ecommerce.API.Ecommerce.enums.Estado;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @DynamicUpdate
+@Data
 @Entity
-@Table(name = "endereco")
+@Table(name = "tb_endereco")
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 985098201651404172L;
 
@@ -39,53 +32,5 @@ public class Endereco implements Serializable {
 
 	@Column(length = 30, nullable = false)
 	private String pais;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public Long getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Long numero) {
-		this.numero = numero;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public String getPais() {
-		return pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
 
 }

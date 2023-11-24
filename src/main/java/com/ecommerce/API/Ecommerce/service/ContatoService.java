@@ -1,15 +1,15 @@
 package com.ecommerce.API.Ecommerce.service;
 
-import com.ecommerce.API.Ecommerce.model.Contato;
+import com.ecommerce.API.Ecommerce.dto.ContatoDTO;
 
 public interface ContatoService {
 
-	public Contato buscar(Long id);
+    ContatoDTO buscar(Long id);
 
-	public void salvar(Contato contato);
+    void salvar(ContatoDTO contatoDTO);
 
-	public void excluir(Contato contato);
+    void excluir(Long id);
 
-	public void atualizar(Long id, Contato novoContato);
+    void atualizar(Long id, ContatoDTO novoContatoDTO);
 
 }

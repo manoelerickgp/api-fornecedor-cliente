@@ -1,53 +1,43 @@
 package com.ecommerce.API.Ecommerce.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ecommerce.API.Ecommerce.model.Endereco;
+import com.ecommerce.API.Ecommerce.dto.EnderecoDTO;
 import com.ecommerce.API.Ecommerce.service.EnderecoServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/endereco")
 public class EnderecoController {
 
-	@Autowired
-	private EnderecoServiceImpl enderecoService;
+    private final EnderecoServiceImpl enderecoService;
 
-	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public Endereco buscar(@PathVariable(value = "id") Long id) {
+    public EnderecoController(EnderecoServiceImpl enderecoService) {
+        this.enderecoService = enderecoService;
+    }
 
-		return enderecoService.buscar(id);
-	}
+    @GetMapping(value = "/buscar/{id}")
+    public ResponseEntity<EnderecoDTO> buscar(@PathVariable(value = "id") Long id) {
+        var endereco = enderecoService.buscar(id);
+        return new ResponseEntity<>(endereco, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "/salvar", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void salvar(@RequestBody Endereco endereco) {
+    @PostMapping(value = "/salvar")
+    public ResponseEntity<Void> salvar(@RequestBody EnderecoDTO enderecoDTO) {
+        enderecoService.salvar(enderecoDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-		enderecoService.salvar(endereco);
-	}
+    @DeleteMapping(value = "/excluir/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable(value = "id") Long id) {
+        enderecoService.excluir(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-	@RequestMapping(value = "/excluir/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public void deletar(@PathVariable(value = "id") Long id) {
-
-		Endereco endereco = enderecoService.buscar(id);
-
-		enderecoService.excluir(endereco);
-	}
-
-	@RequestMapping(value = "/atualizar/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void atualizar(@PathVariable(value = "id") Long id, @RequestBody Endereco novoEndereco) {
-
-		enderecoService.atualizar(id, novoEndereco);
-	}
+    @PutMapping(value = "/atualizar/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable(value = "id") Long id, @RequestBody EnderecoDTO novoEnderecoDTO) {
+        enderecoService.atualizar(id, novoEnderecoDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

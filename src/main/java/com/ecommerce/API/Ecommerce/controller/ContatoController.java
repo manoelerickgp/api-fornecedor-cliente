@@ -1,54 +1,44 @@
 package com.ecommerce.API.Ecommerce.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ecommerce.API.Ecommerce.model.Contato;
+import com.ecommerce.API.Ecommerce.dto.ContatoDTO;
 import com.ecommerce.API.Ecommerce.service.ContatoServiceImpl;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/contato")
 public class ContatoController {
 
-	@Autowired
-	private ContatoServiceImpl contatoService;
+    private final ContatoServiceImpl contatoService;
 
-	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public Contato buscar(@PathVariable(value = "id") Long id) {
+    public ContatoController(ContatoServiceImpl contatoService, ModelMapper mapper) {
+        this.contatoService = contatoService;
+    }
 
-		return contatoService.buscar(id);
-	}
+    @GetMapping(value = "/buscar/{id}")
+    public ResponseEntity<ContatoDTO> buscar(@PathVariable(value = "id") Long id) {
+        var contatoDTO = contatoService.buscar(id);
+        return new ResponseEntity<>(contatoDTO, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "/salvar", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void salvar(@RequestBody Contato contato) {
+    @PostMapping(value = "/salvar")
+    public ResponseEntity<Void> salvar(@RequestBody ContatoDTO contatoDTO) {
+        contatoService.salvar(contatoDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-		contatoService.salvar(contato);
-	}
+    @DeleteMapping(value = "/excluir/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable(value = "id") Long id) {
+        contatoService.excluir(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-	@RequestMapping(value = "/excluir/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public void deletar(@PathVariable(value = "id") Long id) {
-
-		Contato contato = contatoService.buscar(id);
-
-		contatoService.excluir(contato);
-	}
-
-	@RequestMapping(value = "/atualizar/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void atualizar(@PathVariable(value = "id") Long id, @RequestBody Contato novoContato) {
-
-		contatoService.atualizar(id, novoContato);
-
-	}
+    @PutMapping(value = "/atualizar/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable(value = "id") Long id, @RequestBody ContatoDTO novoContatoDTO) {
+        contatoService.atualizar(id, novoContatoDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

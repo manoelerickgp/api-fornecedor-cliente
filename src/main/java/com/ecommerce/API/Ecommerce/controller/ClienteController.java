@@ -1,55 +1,42 @@
 package com.ecommerce.API.Ecommerce.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ecommerce.API.Ecommerce.model.Cliente;
+import com.ecommerce.API.Ecommerce.dto.ClienteDTO;
 import com.ecommerce.API.Ecommerce.service.ClienteServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/cliente")
 public class ClienteController {
-	
-	@Autowired
-	private ClienteServiceImpl clienteService;
-	
-	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public Cliente buscar(@PathVariable(value = "id") Long id) {
 
-		return clienteService.buscar(id);
-	}
+    private final ClienteServiceImpl clienteService;
 
-	@RequestMapping(value = "/salvar", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void salvar(@RequestBody Cliente cliente) {
+    public ClienteController(ClienteServiceImpl clienteService) {
+        this.clienteService = clienteService;
+    }
 
-		clienteService.salvar(cliente);
+    @GetMapping(value = "/buscar/{id}")
+    public ResponseEntity<ClienteDTO> buscar(@PathVariable(value = "id") Long id) {
+        return new ResponseEntity<>(clienteService.buscar(id), HttpStatus.OK);
+    }
 
-	}
+    @PostMapping(value = "/salvar")
+    public ResponseEntity<Void> salvar(@RequestBody ClienteDTO clienteDTO) {
+        clienteService.salvar(clienteDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-	@RequestMapping(value = "/excluir/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public void excluir(@PathVariable(value = "id") Long id) {
+    @DeleteMapping(value = "/excluir/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable(value = "id") Long id) {
+        clienteService.excluir(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-		Cliente cliente = clienteService.buscar(id);
-
-		clienteService.excluir(cliente);
-	}
-
-	@RequestMapping(value = "/atualizar/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public void atualizar(@PathVariable(value = "id") Long id, @RequestBody Cliente novoCliente) {
-		
-		clienteService.atualizar(id, novoCliente);
-
-	}
+    @PutMapping(value = "/atualizar/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable(value = "id") Long id, @RequestBody ClienteDTO novoCliente) {
+        clienteService.atualizar(id, novoCliente);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

@@ -1,3 +1,4 @@
+/*
 package com.ecommerce.API.Ecommerce.mapper;
 
 import java.io.Serializable;
@@ -31,3 +32,4 @@ public abstract class FornecedorMapper extends Fornecedor implements Serializabl
 	public abstract FornecedorDTO toDTO(Fornecedor fornecedor);
 
 }
+*/

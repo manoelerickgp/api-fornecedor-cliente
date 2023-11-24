@@ -1,14 +1,15 @@
 package com.ecommerce.API.Ecommerce.service;
 
-import com.ecommerce.API.Ecommerce.model.Cliente;
+import com.ecommerce.API.Ecommerce.dto.ClienteDTO;
 
 public interface ClienteService {
 
-	public Cliente buscar(Long id);
+    ClienteDTO buscar(Long id);
 
-	public void salvar(Cliente cliente);
+    void salvar(ClienteDTO cliente);
 
-	public void excluir(Cliente cliente);
+    void excluir(Long id);
 
-	public void atualizar(Long id, Cliente novoCliente);
+    void atualizar(Long id, ClienteDTO novoClienteDTO);
+
 }

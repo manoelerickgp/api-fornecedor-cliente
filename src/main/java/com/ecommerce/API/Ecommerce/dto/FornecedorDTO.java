@@ -1,88 +1,31 @@
 package com.ecommerce.API.Ecommerce.dto;
 
-public class FornecedorDTO {
+import com.ecommerce.API.Ecommerce.model.Contato;
+import com.ecommerce.API.Ecommerce.model.Endereco;
+import com.ecommerce.API.Ecommerce.model.Fornecedor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	private String nome;
-	private String cnpj;
-	private String rua;
-	private String cidade;
-	private String estado;
-	private String pais;
-	private String email;
+import java.io.Serializable;
 
-	private Long numero;
-	private Long telefone;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class FornecedorDTO implements Serializable {
 
-	public String getNome() {
-		return nome;
-	}
+    private Long id;
+    private String nome;
+    private String cnpj;
+    private Contato contato;
+    private Endereco endereco;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getPais() {
-		return pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Long getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Long numero) {
-		this.numero = numero;
-	}
-
-	public Long getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Long telefone) {
-		this.telefone = telefone;
-	}
-
+    public FornecedorDTO(Fornecedor forncedor) {
+        this.nome = forncedor.getNome();
+        this.cnpj = forncedor.getCnpj();
+        this.contato = forncedor.getContato();
+        this.endereco = forncedor.getEndereco();
+    }
 }
