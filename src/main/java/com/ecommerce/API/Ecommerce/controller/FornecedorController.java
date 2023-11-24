@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/fornecedor")
 public class FornecedorController {
 
-    @Autowired
-    private FornecedorServiceImpl fornecedorService;
+    private final FornecedorServiceImpl fornecedorService;
+
+    public FornecedorController(FornecedorServiceImpl fornecedorService) {
+        this.fornecedorService = fornecedorService;
+    }
 
     @GetMapping(value = "/buscar/{id}")
     public ResponseEntity<FornecedorDTO> buscar(@PathVariable(value = "id") Long id) {

@@ -12,7 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FornecedorServiceImpl implements FornecedorService{ 
+public class FornecedorServiceImpl implements FornecedorService{
 
 	private final FornecedorRepository fornecedorRepository;
 	private final EnderecoRepository enderecoRepository;
@@ -83,12 +83,8 @@ public class FornecedorServiceImpl implements FornecedorService{
 			fornecedorSalvo.setContato(contato);
 		}
 		updateFornecedor(fornecedorSalvo, novoFornecedorDTO);
-		try {
-			this.fornecedorRepository.save(fornecedorSalvo);
+		this.fornecedorRepository.save(fornecedorSalvo);
 
-		} catch (Exception e) {
-			throw new RuntimeException("Ocorreu um erro ao tentar atualizar o fornecedor.", e);
-		}
 	}
 
 	private void updateFornecedor(Fornecedor fornecedorSalvo, FornecedorDTO novoFornecedor) {

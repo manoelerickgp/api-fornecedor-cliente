@@ -6,7 +6,7 @@ public interface ClienteService {
 
     ClienteDTO buscar(Long id);
 
-    void salvar(ClienteDTO cliente);
+    void salvar(ClienteDTO clienteDTO);
 
     void excluir(Long id);
 
